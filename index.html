@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors</title>
+</head>
+<body>
+    <script>
+        function getComputerChoice() {
+            let num = Math.floor(Math.random() * 3);
+
+            switch (num){
+                case 0:
+                    return "Rock";
+                case 1:
+                    return "Paper";
+                case 2:
+                    return "Scissors";
+                
+                default: 
+                    return "Error";
+            }
+        }
+
+        function playRound(playerSelection, computerSelection){
+            if (computerSelection === "Error") {
+                console.log("There was an unexpected error!");
+                return;
+            }
+
+            let loosingMsg = `You Lose! ${computerSelection} beats ${playerSelection[0].toUpperCase() + playerSelection.slice(1)}`;
+            let winningMsg = `You Win! ${playerSelection[0].toUpperCase() + playerSelection.slice(1)} beats ${computerSelection}`;
+            let drawMsg = `Both used ${computerSelection}! It's a Draw!`;
+
+            if (playerSelection.toLowerCase() === computerSelection.toLowerCase()) {
+                console.log(drawMsg)
+                return "Draw";
+            }
+
+            if (playerSelection.toLowerCase() === "rock") {
+                console.log((computerSelection === "Paper") ? loosingMsg : winningMsg);
+                return (computerSelection === "Paper") ? "Lose":"Win";
+            }
+            if (playerSelection.toLowerCase() === "paper") {
+                console.log((computerSelection === "Scissors") ? loosingMsg : winningMsg);
+                return (computerSelection === "Scissors") ? "Lose":"Win";
+            }
+            if (playerSelection.toLowerCase() === "scissors") {
+                console.log((computerSelection === "Rock") ? loosingMsg : winningMsg);
+                return (computerSelection === "Rock") ? "Lose":"Win";
+            }
+        }
+
+        function game() {
+            let score = 0;
+
+            for (let i = 0; i < 5; i++) {
+                let playerSelection = prompt('Your Choice:');
+                let computerSelection = getComputerChoice();
+
+                let status = playRound(playerSelection, computerSelection);
+
+                if (status !== "Draw") {
+                    score = (status === "Win") ? score+1:score;
+                } else {
+                    // Ignoring any Draws
+                    i--;
+                }
+            }
+
+            console.log(`Score: ${score}`);
+            console.log( (score > 2) ? "You win!":"You lose!" );
+        }
+    </script>
+</body>
+</html>
